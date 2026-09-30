@@ -16,8 +16,9 @@ Create a lightweight, responsive frontend timer where a user enters their daily 
 * **Result State:** Hide the input and show only the shift status, large signed countdown, exact target logout time, and a subtle Reset action.
 * **Reset:** Clear the saved shift and return to an empty centered input. No separate Edit action is required.
 * **Restore:** If a valid saved shift exists after refresh, open directly in the result state without showing the input.
-* **Appearance:** Use only black, white, and necessary neutral grays. Follow the operating system's light or dark preference automatically.
-* **Excluded UI:** Do not show branding, headings, descriptions, gradients, cards, icons, theme controls, help copy, privacy copy, normalized input, or a calculation proof.
+* **Appearance:** Use only black, white, and necessary neutral grays. Follow the operating system's light or dark preference until the user chooses a manual override.
+* **Theme Toggle:** Keep a compact switch fixed in the top-right corner in both app states. Show a moon on the left, a sun on the right, and slide the thumb beneath the active mode. Persist a manual Light or Dark choice locally.
+* **Excluded UI:** Do not show branding, headings, descriptions, gradients, cards, decorative icons, help copy, privacy copy, normalized input, or a calculation proof.
 
 ## Input and Status Requirements
 * Accept common time-only formats such as `07:31`, `7:31 AM`, and `06:57:07 AM`.

@@ -1,5 +1,5 @@
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --background: #ffffff;
   --foreground: #000000;
   --muted: #666666;
@@ -9,7 +9,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     --background: #000000;
     --foreground: #ffffff;
     --muted: #a3a3a3;
@@ -17,6 +17,26 @@
     --line: #3d3d3d;
     --selection: #333333;
   }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #000000;
+  --muted: #666666;
+  --faint: #8a8a8a;
+  --line: #d4d4d4;
+  --selection: #dedede;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #000000;
+  --foreground: #ffffff;
+  --muted: #a3a3a3;
+  --faint: #777777;
+  --line: #3d3d3d;
+  --selection: #333333;
 }
 
 * {
@@ -52,6 +72,82 @@ input:focus-visible {
 ::selection {
   color: var(--foreground);
   background: var(--selection);
+}
+
+.theme-toggle {
+  position: fixed;
+  z-index: 10;
+  top: 18px;
+  right: 18px;
+  width: 68px;
+  height: 36px;
+  padding: 0;
+  color: var(--foreground);
+  background: var(--background);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  border-color: var(--foreground);
+}
+
+.theme-toggle__track {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.theme-toggle__thumb {
+  position: absolute;
+  z-index: 1;
+  top: 3px;
+  left: 3px;
+  width: 28px;
+  height: 28px;
+  background: var(--foreground);
+  border-radius: 50%;
+  transform: translateX(0);
+  transition: transform 160ms ease;
+}
+
+:root[data-theme="light"] .theme-toggle__thumb {
+  transform: translateX(32px);
+}
+
+.theme-toggle__icon {
+  position: absolute;
+  z-index: 2;
+  top: 9px;
+  width: 16px;
+  height: 16px;
+  background: var(--muted);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  pointer-events: none;
+}
+
+.theme-toggle__icon--moon {
+  left: 9px;
+  mask-image: url("../icons/moon.svg");
+  -webkit-mask-image: url("../icons/moon.svg");
+}
+
+.theme-toggle__icon--sun {
+  right: 9px;
+  mask-image: url("../icons/sun.svg");
+  -webkit-mask-image: url("../icons/sun.svg");
+}
+
+:root[data-theme="dark"] .theme-toggle__icon--moon,
+:root[data-theme="light"] .theme-toggle__icon--sun {
+  background: var(--background);
 }
 
 .app {

@@ -2,6 +2,7 @@
   "use strict";
 
   const SHIFT_STORAGE_KEY = "shiftclear.shift.v1";
+  const THEME_STORAGE_KEY = "shiftclear.theme.v1";
 
   const form = document.getElementById("shift-form");
   const input = document.getElementById("time-in");
@@ -14,10 +15,13 @@
   const targetTime = document.getElementById("target-time");
   const targetDate = document.getElementById("target-date");
   const resetButton = document.getElementById("reset-button");
+  const themeToggle = document.getElementById("theme-toggle");
+  const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
 
   let activeShift = null;
   let timerId = null;
   let lastStatusKey = null;
+  let themeOverride = readThemeOverride();
 
   function safeStorageGet(key) {
     try {
@@ -41,6 +45,30 @@
     } catch {
       // Persistence is optional; calculation still works without it.
     }
+  }
+
+  function readThemeOverride() {
+    const stored = safeStorageGet(THEME_STORAGE_KEY);
+    return stored === "light" || stored === "dark" ? stored : null;
+  }
+
+  function getResolvedTheme() {
+    return themeOverride ?? (systemTheme.matches ? "dark" : "light");
+  }
+
+  function applyTheme() {
+    const theme = getResolvedTheme();
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    themeToggle.setAttribute("aria-checked", String(theme === "dark"));
+    themeToggle.setAttribute("aria-label", `Switch to ${nextTheme} mode`);
+    themeToggle.title = `Switch to ${nextTheme} mode`;
+  }
+
+  function toggleTheme() {
+    themeOverride = getResolvedTheme() === "dark" ? "light" : "dark";
+    safeStorageSet(THEME_STORAGE_KEY, themeOverride);
+    applyTheme();
   }
 
   function clearError() {
@@ -188,12 +216,21 @@
   });
 
   resetButton.addEventListener("click", resetShift);
+  themeToggle.addEventListener("click", toggleTheme);
+
+  systemTheme.addEventListener("change", () => {
+    if (themeOverride === null) {
+      applyTheme();
+    }
+  });
 
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible" && activeShift) {
       tick();
     }
   });
+
+  applyTheme();
 
   const savedShift = readSavedShift();
   if (savedShift) {

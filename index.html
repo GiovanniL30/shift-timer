@@ -9,10 +9,25 @@
     />
     <meta name="color-scheme" content="light dark" />
     <title>Shift Timer</title>
-    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body data-shift-status="empty">
+    <button
+      class="theme-toggle"
+      id="theme-toggle"
+      type="button"
+      role="switch"
+      aria-checked="false"
+      aria-label="Switch to dark mode"
+    >
+      <span class="theme-toggle__track" aria-hidden="true">
+        <span class="theme-toggle__thumb"></span>
+        <span class="theme-toggle__icon theme-toggle__icon--moon"></span>
+        <span class="theme-toggle__icon theme-toggle__icon--sun"></span>
+      </span>
+    </button>
+
     <main class="app" aria-label="Shift countdown timer">
       <form id="shift-form" novalidate>
         <label class="sr-only" for="time-in">Time In</label>
