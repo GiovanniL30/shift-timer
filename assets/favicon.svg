@@ -1,14 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <style>
-    .background { fill: #000; }
-    .clock { fill: none; stroke: #fff; }
+    .line { fill: none; stroke: #111; }
+    .pin { fill: #111; }
 
     @media (prefers-color-scheme: dark) {
-      .background { fill: #fff; }
-      .clock { stroke: #000; }
+      .line { stroke: #fff; }
+      .pin { fill: #fff; }
     }
   </style>
-  <rect class="background" x="2" y="2" width="28" height="28" rx="8" />
-  <circle class="clock" cx="16" cy="16" r="9" stroke-width="2.25" />
-  <path class="clock" d="M16 9.5V16L21 19" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+
+  <circle class="line" cx="16" cy="16" r="13" stroke-width="2.25" />
+
+  <path
+    class="line"
+    d="M16 5.75V7.5M26.25 16H24.5M16 26.25V24.5M5.75 16H7.5"
+    stroke-width="1.75"
+    stroke-linecap="round"
+  />
+
+  <path
+    class="line"
+    d="M16 9.5V16L21.25 19.25"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <circle class="pin" cx="16" cy="16" r="1.55" />
 </svg>
