@@ -131,25 +131,32 @@ const ShiftClearCore = (() => {
     };
   }
 
-  function getRemainingSeconds(targetValue, nowValue = Date.now()) {
+  function getCountdownSeconds(targetValue, nowValue = Date.now()) {
     const targetMs = targetValue instanceof Date ? targetValue.getTime() : Number(targetValue);
     const nowMs = nowValue instanceof Date ? nowValue.getTime() : Number(nowValue);
-    return Math.max(0, Math.ceil((targetMs - nowMs) / 1000));
+    const seconds = Math.ceil((targetMs - nowMs) / 1000);
+    return Object.is(seconds, -0) ? 0 : seconds;
   }
 
   function formatDuration(totalSeconds) {
-    const safeSeconds = Math.max(0, Math.floor(Number(totalSeconds) || 0));
-    const hours = Math.floor(safeSeconds / 3600);
-    const minutes = Math.floor((safeSeconds % 3600) / 60);
-    const seconds = safeSeconds % 60;
-    return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    const numericSeconds = Number(totalSeconds);
+    const wholeSeconds = Number.isFinite(numericSeconds) ? Math.trunc(numericSeconds) : 0;
+    const absoluteSeconds = Math.abs(wholeSeconds);
+    const sign = wholeSeconds < 0 ? "-" : "";
+    const hours = Math.floor(absoluteSeconds / 3600);
+    const minutes = Math.floor((absoluteSeconds % 3600) / 60);
+    const seconds = absoluteSeconds % 60;
+    return `${sign}${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
   }
 
-  function getStatus(remainingSeconds) {
-    if (remainingSeconds <= 0) {
+  function getStatus(countdownSeconds) {
+    if (countdownSeconds < 0) {
+      return { key: "extended", label: "Extended Time", announcement: "Extended time." };
+    }
+    if (countdownSeconds === 0) {
       return { key: "complete", label: "Shift Over", announcement: "Shift over." };
     }
-    if (remainingSeconds <= FINAL_STRETCH_SECONDS) {
+    if (countdownSeconds <= FINAL_STRETCH_SECONDS) {
       return { key: "final", label: "Final Stretch", announcement: "Final stretch. Fifteen minutes or less remain." };
     }
     return { key: "active", label: "Shift in Progress", announcement: "Shift in progress." };
@@ -172,7 +179,7 @@ const ShiftClearCore = (() => {
       return false;
     }
 
-    return sameLocalDate(record.startMs, now) || record.targetMs > now.getTime();
+    return record.targetMs > now.getTime() || sameLocalDate(record.targetMs, now);
   }
 
   return Object.freeze({
@@ -180,7 +187,7 @@ const ShiftClearCore = (() => {
     FINAL_STRETCH_SECONDS,
     parseTimeInput,
     calculateTarget,
-    getRemainingSeconds,
+    getCountdownSeconds,
     formatDuration,
     formatTime,
     formatDate,

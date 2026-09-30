@@ -8,6 +8,7 @@
   const inputError = document.getElementById("input-error");
   const result = document.getElementById("result");
   const countdown = document.getElementById("countdown");
+  const countdownCaption = document.getElementById("countdown-caption");
   const statusLabel = document.getElementById("status-label");
   const statusAnnouncement = document.getElementById("status-announcement");
   const targetTime = document.getElementById("target-time");
@@ -106,16 +107,23 @@
       return;
     }
 
-    const remaining = ShiftClearCore.getRemainingSeconds(activeShift.targetMs, Date.now());
-    const formatted = ShiftClearCore.formatDuration(remaining);
+    const countdownSeconds = ShiftClearCore.getCountdownSeconds(activeShift.targetMs, Date.now());
+    const formatted = ShiftClearCore.formatDuration(countdownSeconds);
     countdown.textContent = formatted;
-    countdown.setAttribute("aria-label", `${formatted} remaining`);
-    updateStatus(ShiftClearCore.getStatus(remaining));
+    countdownCaption.hidden = countdownSeconds < 0;
 
-    if (remaining > 0) {
-      const delay = 1000 - (Date.now() % 1000) + 15;
-      timerId = window.setTimeout(tick, delay);
+    if (countdownSeconds < 0) {
+      countdown.setAttribute("aria-label", `${ShiftClearCore.formatDuration(Math.abs(countdownSeconds))} past logout`);
+    } else if (countdownSeconds === 0) {
+      countdown.setAttribute("aria-label", "Shift over");
+    } else {
+      countdown.setAttribute("aria-label", `${formatted} remaining`);
     }
+
+    updateStatus(ShiftClearCore.getStatus(countdownSeconds));
+
+    const delay = 1000 - (Date.now() % 1000) + 15;
+    timerId = window.setTimeout(tick, delay);
   }
 
   function activateShift(record, persist = true) {
@@ -159,6 +167,7 @@
     result.hidden = true;
     document.body.dataset.shiftStatus = "empty";
     countdown.textContent = "00:00:00";
+    countdownCaption.hidden = false;
     statusAnnouncement.textContent = "Shift cleared.";
     input.focus();
   }
