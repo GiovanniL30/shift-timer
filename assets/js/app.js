@@ -16,6 +16,8 @@
   const targetDate = document.getElementById("target-date");
   const resetButton = document.getElementById("reset-button");
   const themeToggle = document.getElementById("theme-toggle");
+  const privacyOpen = document.getElementById("privacy-open");
+  const privacyDialog = document.getElementById("privacy-dialog");
   const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
 
   let activeShift = null;
@@ -217,6 +219,17 @@
 
   resetButton.addEventListener("click", resetShift);
   themeToggle.addEventListener("click", toggleTheme);
+  privacyOpen.addEventListener("click", () => {
+    if (typeof privacyDialog.showModal === "function") {
+      privacyDialog.showModal();
+    } else {
+      privacyDialog.setAttribute("open", "");
+    }
+  });
+
+  privacyDialog.addEventListener("close", () => {
+    privacyOpen.focus();
+  });
 
   systemTheme.addEventListener("change", () => {
     if (themeOverride === null) {

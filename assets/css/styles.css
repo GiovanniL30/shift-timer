@@ -58,13 +58,22 @@ body {
   background: var(--background);
 }
 
+.page-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(360px, 1fr) auto auto;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
 button,
 input {
   font: inherit;
 }
 
 button:focus-visible,
-input:focus-visible {
+input:focus-visible,
+a:focus-visible {
   outline: 2px solid var(--foreground);
   outline-offset: 3px;
 }
@@ -152,14 +161,113 @@ input:focus-visible {
 
 .app {
   display: flex;
+  grid-row: 1;
   width: min(88vw, 430px);
-  min-height: 100vh;
-  min-height: 100svh;
   margin: 0 auto;
-  padding: 32px 0;
+  padding: 72px 0 28px;
   flex-direction: column;
   justify-content: center;
   text-align: center;
+}
+
+.ad-region {
+  display: grid;
+  grid-row: 2;
+  width: min(calc(100% - 32px), 728px);
+  min-height: 116px;
+  margin: 0 auto;
+  padding: 8px 0 16px;
+  place-items: center;
+}
+
+.ad-slot {
+  display: grid;
+  width: 100%;
+  min-height: 90px;
+  place-items: center;
+}
+
+.ad-placeholder {
+  display: grid;
+  width: 100%;
+  height: 90px;
+  color: var(--faint);
+  background: var(--background);
+  border: 1px dashed var(--line);
+  place-items: center;
+}
+
+.ad-placeholder span {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.site-footer {
+  grid-row: 3;
+  padding: 0 16px 16px;
+  text-align: center;
+}
+
+#privacy-open,
+#privacy-close {
+  padding: 4px;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+#privacy-open:hover,
+#privacy-close:hover {
+  color: var(--foreground);
+  border-color: var(--foreground);
+}
+
+.privacy-dialog {
+  width: min(calc(100% - 32px), 520px);
+  max-height: calc(100svh - 32px);
+  padding: 0;
+  color: var(--foreground);
+  background: var(--background);
+  border: 1px solid var(--line);
+  border-radius: 0;
+}
+
+.privacy-dialog::backdrop {
+  background: rgb(0 0 0 / 55%);
+}
+
+.privacy-dialog__content {
+  padding: 28px;
+}
+
+.privacy-dialog h1 {
+  margin: 0 0 20px;
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.privacy-dialog p {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.privacy-dialog a {
+  color: var(--foreground);
+  text-underline-offset: 3px;
+}
+
+.privacy-dialog form {
+  margin-top: 24px;
+  text-align: right;
 }
 
 #shift-form {
@@ -318,6 +426,48 @@ body[data-shift-status="complete"] #countdown {
 
   #countdown {
     font-size: clamp(3rem, 17vw, 4.4rem);
+  }
+}
+
+@media (min-width: 1100px) {
+  .page-shell {
+    grid-template-columns: minmax(300px, 1fr) minmax(320px, 430px) minmax(300px, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .app {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    padding: 72px 0 32px;
+  }
+
+  .ad-region {
+    grid-column: 3;
+    grid-row: 1;
+    width: min(calc(100% - 32px), 300px);
+    min-height: 250px;
+    padding: 72px 0 32px;
+  }
+
+  .ad-slot,
+  .ad-placeholder {
+    min-height: 250px;
+  }
+
+  .ad-placeholder {
+    height: 250px;
+  }
+
+  .site-footer {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+@media (max-height: 560px) and (max-width: 1099px) {
+  .page-shell {
+    grid-template-rows: minmax(320px, auto) auto auto;
   }
 }
 

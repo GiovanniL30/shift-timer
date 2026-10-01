@@ -8,9 +8,18 @@
       content="Calculate your shift end time and see the remaining countdown."
     />
     <meta name="color-scheme" content="light dark" />
+    <meta
+      name="google-adsense-account"
+      content="ca-pub-3861917167642750"
+    />
     <title>Shift Timer</title>
     <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="assets/css/styles.css" />
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3861917167642750"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body data-shift-status="empty">
     <button
@@ -28,42 +37,111 @@
       </span>
     </button>
 
-    <main class="app" aria-label="Shift countdown timer">
-      <form id="shift-form" novalidate>
-        <label class="sr-only" for="time-in">Time In</label>
-        <input
-          id="time-in"
-          name="time-in"
-          type="text"
-          inputmode="text"
-          autocomplete="off"
-          spellcheck="false"
-          placeholder="Time in: (eg. 07:31:41 AM)"
-          aria-describedby="input-error"
-          aria-invalid="false"
-        />
-        <p id="input-error" role="alert" hidden></p>
-      </form>
+    <div class="page-shell">
+      <main class="app" aria-label="Shift countdown timer">
+        <form id="shift-form" novalidate>
+          <label class="sr-only" for="time-in">Time In</label>
+          <input
+            id="time-in"
+            name="time-in"
+            type="text"
+            inputmode="text"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Time in: (eg. 07:31:41 AM)"
+            aria-describedby="input-error"
+            aria-invalid="false"
+          />
+          <p id="input-error" role="alert" hidden></p>
+        </form>
 
-      <section id="result" aria-label="Shift result" hidden>
-        <p id="status-label">Shift in progress</p>
-        <p id="countdown" aria-label="Time remaining">00:00:00</p>
-        <p class="remaining-label" id="countdown-caption">remaining</p>
-        <p class="target">
-          Ends at <strong id="target-time">-</strong>
-          <span id="target-date"></span>
+        <section id="result" aria-label="Shift result" hidden>
+          <p id="status-label">Shift in progress</p>
+          <p id="countdown" aria-label="Time remaining">00:00:00</p>
+          <p class="remaining-label" id="countdown-caption">remaining</p>
+          <p class="target">
+            Ends at <strong id="target-time">-</strong>
+            <span id="target-date"></span>
+          </p>
+          <button id="reset-button" type="button">Reset</button>
+        </section>
+
+        <p
+          class="sr-only"
+          id="status-announcement"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        ></p>
+      </main>
+
+      <aside class="ad-region" aria-label="Advertisement">
+        <div class="ad-slot">
+          <!--
+            ADSENSE AD UNIT: After Google supplies the numeric ad-unit slot ID,
+            replace the .ad-placeholder element with Google's exact responsive
+            ad-unit snippet. Keep the surrounding .ad-slot container unchanged.
+
+            <ins
+              class="adsbygoogle"
+              style="display: block"
+              data-ad-client="ca-pub-3861917167642750"
+              data-ad-slot="XXXXXXXXXX"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            ></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          -->
+          <div class="ad-placeholder" aria-hidden="true">
+            <span>Advertisement</span>
+          </div>
+        </div>
+      </aside>
+
+      <footer class="site-footer">
+        <button id="privacy-open" type="button">Privacy</button>
+      </footer>
+    </div>
+
+    <dialog
+      class="privacy-dialog"
+      id="privacy-dialog"
+      aria-labelledby="privacy-title"
+    >
+      <div class="privacy-dialog__content">
+        <h1 id="privacy-title">Privacy</h1>
+        <p>
+          This timer stores your active shift and theme preference in your
+          browser so they can be restored later. This information stays on
+          your device and is not sent to an application server.
         </p>
-        <button id="reset-button" type="button">Reset</button>
-      </section>
-
-      <p
-        class="sr-only"
-        id="status-announcement"
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-      ></p>
-    </main>
+        <p>
+          When advertising is activated, Google and its advertising partners
+          may use cookies, local storage, device information, and usage data to
+          deliver, measure, and personalize ads, subject to your consent and
+          applicable law.
+        </p>
+        <p>
+          Learn more about
+          <a
+            href="https://policies.google.com/technologies/partner-sites"
+            target="_blank"
+            rel="noopener noreferrer"
+          >how Google uses information from partner sites</a>
+          or
+          <a
+            href="https://adssettings.google.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >manage your Google ad settings</a>.
+        </p>
+        <form method="dialog">
+          <button id="privacy-close" type="submit">Close</button>
+        </form>
+      </div>
+    </dialog>
 
     <noscript>
       <p class="noscript">JavaScript is required.</p>
