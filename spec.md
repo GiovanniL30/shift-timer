@@ -36,14 +36,14 @@ Create a lightweight, responsive frontend timer where a user enters their daily 
 * Persist the active Time In locally so an eligible shift survives refresh.
 * Treat the browser's local clock and timezone as authoritative.
 * Keep the application host-independent by using relative asset paths and no hardcoded production hostname.
-* Load the verified AdSense publisher script once from the document head. Until a real ad-unit slot ID is available, show a neutral development placeholder and do not initialize an ad unit.
-* After the slot ID is supplied, use one unmodified responsive manual AdSense unit and initialize it only once. Timer ticks, resets, theme changes, and restored sessions must not recreate it.
+* Load the verified AdSense publisher script once from the document head and initialize responsive manual ad unit `8471165698` once in the persistent ad region.
+* Timer ticks, resets, theme changes, and restored sessions must not recreate the ad unit.
 * Serve Google's authorized-seller entry from `/ads.txt` at the deployment root. Do not publish a fake publisher ID.
 
 ## Deployment and AdSense Activation
 * The owner will deploy the static repository to a stable Vercel production address, initially `shift-timer.vercel.app` if available.
 * Vercel preview URLs are not submitted or intentionally monetized.
-* The publisher script, verification meta tag, and `ads.txt` entry use publisher `pub-3861917167642750`. Replace the marked ad-unit slot placeholder only with the numeric value supplied by AdSense.
+* The publisher script, verification meta tag, `ads.txt` entry, and responsive ad unit use publisher `pub-3861917167642750`; the ad unit uses slot `8471165698`.
 * Configure Google's consent-management platform for Consent, Manage options, and Do not consent before requesting review.
 * If the production domain changes, publish `ads.txt` at the new root, add and verify the new site in AdSense, and wait until it is eligible before serving ads there.
 * AdSense approval and revenue are external outcomes and are not guaranteed by the implementation.
