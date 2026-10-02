@@ -18,6 +18,9 @@
   const themeToggle = document.getElementById("theme-toggle");
   const privacyOpen = document.getElementById("privacy-open");
   const privacyDialog = document.getElementById("privacy-dialog");
+  const pageShell = document.querySelector(".page-shell");
+  const adRegion = document.querySelector(".ad-region");
+  const manualAd = adRegion.querySelector(".adsbygoogle");
   const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
 
   let activeShift = null;
@@ -71,6 +74,20 @@
     themeOverride = getResolvedTheme() === "dark" ? "light" : "dark";
     safeStorageSet(THEME_STORAGE_KEY, themeOverride);
     applyTheme();
+  }
+
+  function preserveLayoutWhenAdIsUnfilled() {
+    if (manualAd.dataset.adStatus !== "unfilled") {
+      return;
+    }
+
+    for (const element of [pageShell, adRegion]) {
+      element.style.removeProperty("height");
+      element.style.removeProperty("min-height");
+      if (!element.getAttribute("style")) {
+        element.removeAttribute("style");
+      }
+    }
   }
 
   function clearError() {
@@ -242,6 +259,21 @@
       tick();
     }
   });
+
+  const adLayoutObserver = new MutationObserver(preserveLayoutWhenAdIsUnfilled);
+  adLayoutObserver.observe(manualAd, {
+    attributes: true,
+    attributeFilter: ["data-ad-status"]
+  });
+  adLayoutObserver.observe(pageShell, {
+    attributes: true,
+    attributeFilter: ["style"]
+  });
+  adLayoutObserver.observe(adRegion, {
+    attributes: true,
+    attributeFilter: ["style"]
+  });
+  preserveLayoutWhenAdIsUnfilled();
 
   applyTheme();
 

@@ -18,8 +18,8 @@ Create a lightweight, responsive frontend timer where a user enters their daily 
 * **Restore:** If a valid saved shift exists after refresh, open directly in the result state without showing the input.
 * **Appearance:** Use only black, white, and necessary neutral grays. Follow the operating system's light or dark preference until the user chooses a manual override.
 * **Theme Toggle:** Keep a compact switch fixed in the top-right corner in both app states. Show a moon on the left, a sun on the right, and slide the thumb beneath the active mode. Persist a manual Light or Dark choice locally.
-* **Advertising:** Reserve one persistent manual ad region outside the timer's entry/result state switching. At widths of 1100px and above, place it in a vertically centered right rail. Below 1100px, place the same region inline beneath the timer and keep it normally visible without scrolling. Never use sticky, overlay, automatic, or multiple ad placements.
-* **Privacy:** Keep a compact Privacy action in the footer. It opens an accessible in-page dialog describing local timer/theme storage and advertising data use, with links to Google's partner-site information and ad settings.
+* **Advertising:** Reserve one persistent manual ad region outside the timer's entry/result state switching while its request is pending or filled. When AdSense marks the unit unfilled, hide the unit, collapse its empty slot, and keep the page shell at viewport height so the timer remains centered. At widths of 1100px and above, place a filled unit in a vertically centered right rail. Below 1100px, place it inline beneath the timer and keep it normally visible without scrolling. Auto ads are managed through the AdSense dashboard; do not add multiple manual placements in the page source.
+* **Privacy:** Keep a compact Privacy action fixed at the safe bottom-right edge of the viewport. Reserve footer clearance so it does not collide with content at the bottom of the page. It opens an accessible centered in-page dialog describing local timer/theme storage and advertising data use, with links to Google's partner-site information and ad settings.
 * **Excluded UI:** Do not show branding, headings, descriptions, gradients, cards, decorative icons, help copy outside the Privacy dialog, normalized input, or a calculation proof.
 
 ## Input and Status Requirements
@@ -36,14 +36,13 @@ Create a lightweight, responsive frontend timer where a user enters their daily 
 * Persist the active Time In locally so an eligible shift survives refresh.
 * Treat the browser's local clock and timezone as authoritative.
 * Keep the application host-independent by using relative asset paths and no hardcoded production hostname.
-* Load the verified AdSense publisher script once from the document head and initialize responsive manual ad unit `8471165698` once in the persistent ad region.
+* Load the AdSense publisher script once from the document head for script-based site verification and Auto ads, and initialize responsive manual ad unit `8471165698` once in the persistent ad region.
 * Timer ticks, resets, theme changes, and restored sessions must not recreate the ad unit.
-* Serve Google's authorized-seller entry from `/ads.txt` at the deployment root. Do not publish a fake publisher ID.
+* If AdSense injects ancestor sizing overrides while collapsing an unfilled unit, remove only those injected height constraints so the timer remains centered.
 
 ## Deployment and AdSense Activation
-* The owner will deploy the static repository to a stable Vercel production address, initially `shift-timer.vercel.app` if available.
-* Vercel preview URLs are not submitted or intentionally monetized.
-* The publisher script, verification meta tag, `ads.txt` entry, and responsive ad unit use publisher `pub-3861917167642750`; the ad unit uses slot `8471165698`.
+* Deploy the static repository to a stable production address; do not submit preview deployments for review or intentional monetization.
+* The publisher script and responsive ad unit use publisher `pub-3861917167642750`; the ad unit uses slot `8471165698`.
 * Configure Google's consent-management platform for Consent, Manage options, and Do not consent before requesting review.
-* If the production domain changes, publish `ads.txt` at the new root, add and verify the new site in AdSense, and wait until it is eligible before serving ads there.
+* Add and verify the production site in AdSense using the publisher script, then wait until the site is eligible before serving ads there. Auto ads and manual ad units do not bypass site registration or review.
 * AdSense approval and revenue are external outcomes and are not guaranteed by the implementation.

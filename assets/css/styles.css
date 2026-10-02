@@ -66,6 +66,11 @@ body {
   min-height: 100svh;
 }
 
+.page-shell:has(> .ad-region > .ad-slot > .adsbygoogle[data-ad-status="unfilled"]) {
+  height: 100vh;
+  height: 100svh;
+}
+
 button,
 input {
   font: inherit;
@@ -191,10 +196,24 @@ a:focus-visible {
   width: 100%;
 }
 
+.ad-slot > .adsbygoogle[data-ad-status="unfilled"] {
+  display: none !important;
+}
+
+.ad-region:has(> .ad-slot > .adsbygoogle[data-ad-status="unfilled"]) {
+  min-height: 0;
+  padding: 0;
+}
+
+.ad-region:has(> .ad-slot > .adsbygoogle[data-ad-status="unfilled"]) .ad-slot {
+  min-height: 0;
+}
+
 .site-footer {
   grid-row: 3;
+  min-height: 36px;
   padding: 0 16px 16px;
-  text-align: center;
+  text-align: right;
 }
 
 #privacy-open,
@@ -207,6 +226,13 @@ a:focus-visible {
   border-radius: 0;
   font-size: 0.75rem;
   cursor: pointer;
+}
+
+#privacy-open {
+  position: fixed;
+  z-index: 9;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
 }
 
 #privacy-open:hover,
