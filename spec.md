@@ -41,7 +41,9 @@ Create a lightweight, responsive frontend timer where a user enters their daily 
 * If AdSense injects ancestor sizing overrides while collapsing an unfilled unit, remove only those injected height constraints so the timer remains centered.
 
 ## Deployment and AdSense Activation
-* Deploy the static repository to a stable production address; do not submit preview deployments for review or intentional monetization.
+* Publish the repository through GitHub Pages at `timer.gl3o.me`. Keep the root `CNAME` file in the Pages publishing source and configure the same custom domain in the repository's Pages settings.
+* Keep asset references relative so the application works from the custom-domain root without a repository-name path prefix.
+* Do not submit preview deployments for review or intentional monetization.
 * The publisher script and responsive ad unit use publisher `pub-3861917167642750`; the ad unit uses slot `8471165698`.
 * Configure Google's consent-management platform for Consent, Manage options, and Do not consent before requesting review.
 * Add and verify the production site in AdSense using the publisher script, then wait until the site is eligible before serving ads there. Auto ads and manual ad units do not bypass site registration or review.
